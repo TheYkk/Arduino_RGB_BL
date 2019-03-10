@@ -1,13 +1,14 @@
 #include <EEPROM.h>
 
 #define tempCycle 1000 U //Multi threading...
-unsigned long tempLastMillis = 0;
+
+
 
 
 
 int mode;
 
-int ledPinBlue  = 6; // LED connected to digital pin 9
+int ledPinBlue  = 6; 
 int ledPinRed   = 3;
 int ledPinGreen = 5;
 
@@ -41,15 +42,15 @@ void setup()
 
     digitalWrite(13,LOW);
 
-    digitalWrite(ledPinRed,255);
+    analogWrite(ledPinRed,255);
     delay(1000);
-    digitalWrite(ledPinRed,0);
-    digitalWrite(ledPinBlue,255);
+    analogWrite(ledPinRed,0);
+    analogWrite(ledPinBlue,255);
     delay(1000);
-    digitalWrite(ledPinBlue,0);
-    digitalWrite(ledPinGreen,255);
+    analogWrite(ledPinBlue,0);
+    analogWrite(ledPinGreen,255);
     delay(1000);
-    digitalWrite(ledPinGreen,0);
+    analogWrite(ledPinGreen,0);
 
     red      = EEPROM.read(0);
     green    = EEPROM.read(1);
@@ -164,15 +165,15 @@ void fade()
     delay(30);
 }
 void flash(){
-    digitalWrite(ledPinRed,255);
+    analogWrite(ledPinRed,255);
     delay(1000);
-    digitalWrite(ledPinRed,0);
-    digitalWrite(ledPinBlue,255);
+    analogWrite(ledPinRed,0);
+    analogWrite(ledPinBlue,255);
     delay(1000);
-    digitalWrite(ledPinBlue,0);
-    digitalWrite(ledPinGreen,255);
+    analogWrite(ledPinBlue,0);
+    analogWrite(ledPinGreen,255);
     delay(1000);
-    digitalWrite(ledPinGreen,0);
+    analogWrite(ledPinGreen,0);
 }
 
 
