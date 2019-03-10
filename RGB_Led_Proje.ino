@@ -1,13 +1,14 @@
 #include <EEPROM.h>
 
 #define tempCycle 1000 U //Multi threading...
-unsigned long tempLastMillis = 0;
+
+
 
 
 
 int mode;
 
-int ledPinBlue  = 6; // LED connected to digital pin 9
+int ledPinBlue  = 6; 
 int ledPinRed   = 3;
 int ledPinGreen = 5;
 
@@ -17,18 +18,17 @@ int red, green, blue ;
 //
 
 //Kontrol Yapısı Değişkenleri
-static boolean recvInProgress = false;
-static byte ndx               = 0;
-char startMarker              = '<';
-char faded                    = 'Q';
-char stat                     = '@';
-char kapat                    = 'K';
-char flash                    = 'F';
-char endMarker                = '>';
+static boolean recvInProgress  = false;
+static byte ndx                = 0;
+char startMarker               = '<';
+char faded                     = 'Q';
+char stat                      = '@';
+char kapat                     = 'K';
+char flashed                   = 'F';
+char endMarker                 = '>';
 String rc;
 //Kontrol yapısı Değişkenleri
 
-boolean newData = false;
 
 void setup()
 {
@@ -42,12 +42,15 @@ void setup()
 
     digitalWrite(13,LOW);
 
-    analogWrite(ledPinRed, 255); //kırmızı
+    analogWrite(ledPinRed,255);
     delay(1000);
-    analogWrite(ledPinGreen, 255); //yeşil
+    analogWrite(ledPinRed,0);
+    analogWrite(ledPinBlue,255);
     delay(1000);
-    analogWrite(ledPinBlue, 255); //mavi
+    analogWrite(ledPinBlue,0);
+    analogWrite(ledPinGreen,255);
     delay(1000);
+    analogWrite(ledPinGreen,0);
 
     red      = EEPROM.read(0);
     green    = EEPROM.read(1);
@@ -66,6 +69,8 @@ void loop()
     if (mode == 1)  //Fade
     {
         fade();
+
+
         analogWrite(ledPinRed   , r);
         analogWrite(ledPinGreen , g);
         analogWrite(ledPinBlue  , b);
@@ -78,7 +83,7 @@ void loop()
     }
     else if (mode == 3)//Flash
     {
-
+        flash();
     }
     else if (mode == 555)//KAPAT
     {
@@ -128,6 +133,10 @@ void recvWithStartEndMarkers()
                 mode = 555;
                 EEPROM.update(3,mode);
             }
+            else if(rc.indexOf(flashed) != -1){
+                mode = 3;
+                EEPROM.update(3,mode);
+            }
         }
 
       
@@ -154,6 +163,17 @@ void fade()
     }
 
     delay(30);
+}
+void flash(){
+    analogWrite(ledPinRed,255);
+    delay(1000);
+    analogWrite(ledPinRed,0);
+    analogWrite(ledPinBlue,255);
+    delay(1000);
+    analogWrite(ledPinBlue,0);
+    analogWrite(ledPinGreen,255);
+    delay(1000);
+    analogWrite(ledPinGreen,0);
 }
 
 
