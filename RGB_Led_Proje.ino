@@ -3,10 +3,6 @@
 #define tempCycle 1000 U //Multi threading...
 unsigned long tempLastMillis = 0;
 
-const byte numChars = 32;
-char receivedChars[numChars];
-char tempChars[numChars];
-
 
 
 int mode;
@@ -41,8 +37,10 @@ void setup()
     pinMode(3, OUTPUT);
     pinMode(5, OUTPUT);
     pinMode(6, OUTPUT);
+    pinMode(13, OUTPUT);
 
-    
+
+    digitalWrite(13,LOW);
 
     analogWrite(ledPinRed, 255); //kırmızı
     delay(1000);
@@ -54,9 +52,9 @@ void setup()
     red      = EEPROM.read(0);
     green    = EEPROM.read(1);
     blue     = EEPROM.read(2);
-    //mode   = EEPROM.read(3);
+    mode     = EEPROM.read(3);
     //speed  = EEPROM.read(4);
-    mode     = 1;
+    
 }
 
 void loop()
@@ -170,13 +168,13 @@ void showParsedData()
     Serial.print("B ");
     Serial.println(blue);
 
-    Serial.print("EEPROM 1: ");
+    Serial.print("EEPROM 1(R): ");
     Serial.println(EEPROM.read(0));
-    Serial.print("EEPROM 2: ");
+    Serial.print("EEPROM 2(G): ");
     Serial.println(EEPROM.read(1));
-    Serial.print("EEPROM 3: ");
+    Serial.print("EEPROM 3(B): ");
     Serial.println(EEPROM.read(2));
-    Serial.print("EEPROM 4: ");
+    Serial.print("EEPROM 4(Mode): ");
     Serial.println(EEPROM.read(3));
 }
 
