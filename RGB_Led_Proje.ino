@@ -17,17 +17,22 @@ int red, green, blue ;
 //
 
 //Kontrol Yapısı Değişkenleri
-static boolean recvInProgress = false;
-static byte ndx               = 0;
-char startMarker              = '<';
-char faded                    = 'Q';
-char stat                     = '@';
-char kapat                    = 'K';
-char flash                    = 'F';
-char endMarker                = '>';
+static boolean recvInProgress  = false;
+static byte ndx                = 0;
+char startMarker               = '<';
+char faded                     = 'Q';
+char stat                      = '@';
+char kapat                     = 'K';
+char flashed                   = 'F';
+char endMarker                 = '>';
 String rc;
 //Kontrol yapısı Değişkenleri
 
+//Flash LED Varible
+int flashRed   = 3 ;
+int flashGreen = 5 ;
+int flashBlue  = 6 ;
+//
 boolean newData = false;
 
 void setup()
@@ -66,6 +71,8 @@ void loop()
     if (mode == 1)  //Fade
     {
         fade();
+
+
         analogWrite(ledPinRed   , r);
         analogWrite(ledPinGreen , g);
         analogWrite(ledPinBlue  , b);
@@ -78,7 +85,7 @@ void loop()
     }
     else if (mode == 3)//Flash
     {
-
+        flash();
     }
     else if (mode == 555)//KAPAT
     {
@@ -128,6 +135,10 @@ void recvWithStartEndMarkers()
                 mode = 555;
                 EEPROM.update(3,mode);
             }
+            else if(rc.indexOf(flashed) != -1){
+                mode = 3;
+                EEPROM.update(3,mode);
+            }
         }
 
       
@@ -154,6 +165,17 @@ void fade()
     }
 
     delay(30);
+}
+void flash(){
+    digitalWrite(flashRed,255);
+    delay(1000);
+    digitalWrite(flashRed,0);
+    digitalWrite(flashBlue,255);
+    delay(1000);
+    digitalWrite(flashBlue,0);
+    digitalWrite(flashGreen,255);
+    delay(1000);
+    digitalWrite(flashGreen,0);
 }
 
 
