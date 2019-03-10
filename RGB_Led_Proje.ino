@@ -28,12 +28,6 @@ char endMarker                 = '>';
 String rc;
 //Kontrol yapısı Değişkenleri
 
-//Flash LED Varible
-int flashRed   = 3 ;
-int flashGreen = 5 ;
-int flashBlue  = 6 ;
-//
-boolean newData = false;
 
 void setup()
 {
@@ -47,12 +41,15 @@ void setup()
 
     digitalWrite(13,LOW);
 
-    analogWrite(ledPinRed, 255); //kırmızı
+    digitalWrite(ledPinRed,255);
     delay(1000);
-    analogWrite(ledPinGreen, 255); //yeşil
+    digitalWrite(ledPinRed,0);
+    digitalWrite(ledPinBlue,255);
     delay(1000);
-    analogWrite(ledPinBlue, 255); //mavi
+    digitalWrite(ledPinBlue,0);
+    digitalWrite(ledPinGreen,255);
     delay(1000);
+    digitalWrite(ledPinGreen,0);
 
     red      = EEPROM.read(0);
     green    = EEPROM.read(1);
@@ -167,15 +164,15 @@ void fade()
     delay(30);
 }
 void flash(){
-    digitalWrite(flashRed,255);
+    digitalWrite(ledPinRed,255);
     delay(1000);
-    digitalWrite(flashRed,0);
-    digitalWrite(flashBlue,255);
+    digitalWrite(ledPinRed,0);
+    digitalWrite(ledPinBlue,255);
     delay(1000);
-    digitalWrite(flashBlue,0);
-    digitalWrite(flashGreen,255);
+    digitalWrite(ledPinBlue,0);
+    digitalWrite(ledPinGreen,255);
     delay(1000);
-    digitalWrite(flashGreen,0);
+    digitalWrite(ledPinGreen,0);
 }
 
 
